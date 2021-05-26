@@ -31,7 +31,7 @@ int DataGenerator::NormDist(int mean, int std)
     int val = -1;
     std::normal_distribution<float> distribution(mean, std);
     do { val = distribution(__randomGen); } 
-    while(val < 0 || val > 100);
+    while(val < 0);
     return val;
 }
 

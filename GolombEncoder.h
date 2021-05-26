@@ -21,10 +21,11 @@ public:
 	{
 		return bitStream.getTotalCodeLength();
 	}
+	
+	BitOutputStream bitStream;
 
 private:
 
-	BitOutputStream bitStream;
 	uint64_t m;
 	uint64_t k;
 };

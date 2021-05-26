@@ -10,59 +10,53 @@ using namespace std;
 #include "DataGenerator.h"
 #include "TxtLoader.h"
 
-static const int length = 50000;
-static const int  max = 20;
+#define BUFFER_SIZE 1024
 
 int main (int argc, char *argv[]) 
 {
 	if(argc > 1){
-		TxtLoader txtloader;
-		DataGenerator dataGenerator;
-				
-		for (int i = 0; i < 10; i++) {
-			string str;
-			str = to_string(dataGenerator.NormDist(1, 2));
-			txtloader.writeText("norm_dist.txt", str);
-
-			//cout <<  dataGenerator.LaplDist(10) <<endl;
-		}
 		
-		for (int i = 0; i < 10; i++) {
-			string str;
-			str = to_string(dataGenerator.UniDist(1, 2));
-			txtloader.writeText("uni_dist.txt", str);
-
-			//cout <<  dataGenerator.LaplDist(10) <<endl;
-		}
+		DataGenerator dataGenerator;
 		
 		char * char_m = argv[1];
 		uint64_t m;
 		m = strtoull(char_m, NULL, 0);
-		//cout << m << endl;
-		uint8_t buffer[1024];
+		
+		uint8_t buffer[BUFFER_SIZE];
 		
 		GolombEncoder expGolomb(m);
-		expGolomb.setBuffer(buffer, 1024);
+		expGolomb.setBuffer(buffer, BUFFER_SIZE);
 		
-		expGolomb.encode(2);
-		expGolomb.encode(1);
-		expGolomb.encode(3);
-		expGolomb.encode(7);
+		int p[14]={};
+		
+		/*pętla generująca kolejne liczby z rozkładem normalnym oraz kodująca je; 
+		przechowywane są w buffer*/
+		for (int i = 0; i < 100; i++) {
+		int number = dataGenerator.NormDist(100, 10);
+		if ((number>=30)&&(number<170)) ++p[int((number-30)/10)];
+		expGolomb.encode(number);
+		}
+		
+		cout<<"Histogram danych wejściowych"<<endl;
+		for (int i=0; i<14; ++i) {
+    		cout << i*10+30 << "-" << ((i+1)*10+30) << ": ";
+    		cout << string(p[i],'*') << endl;
+  		}
 		
 		expGolomb.close();
 		
+				
 		GolombDecoder expDecoder(m);
-		expDecoder.setBuffer(buffer, 1024);
+		expDecoder.setBuffer(buffer, BUFFER_SIZE);
 
 		uint64_t a;
+		//pętla dekodująca buffer
+		cout<<"Wyniki dekodowania"<<endl;
+		for (int i = 0; i < 100; i++) {
 		expDecoder.decode(a);
 		cout << a << endl;
-		expDecoder.decode(a);
-		cout << a << endl;
-		expDecoder.decode(a);
-		cout << a << endl;
-		expDecoder.decode(a);
-		cout << a << endl;
+		}
+
 		
 	}
 	else{

@@ -14,9 +14,10 @@ public:
 	void setBuffer(uint8_t *buffer, int len);
 
 	BufferState decode(uint64_t& num);
+	
+	BitInputStream bitStream;
 
 private:
-	BitInputStream bitStream;
 	uint64_t k;
 	uint64_t m;
 };
