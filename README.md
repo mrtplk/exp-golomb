@@ -1,12 +1,9 @@
 # exp-golomb
 KODA - projekt
 
-make 
+Urchomienie programu
+1) make 
 
-./exp-golomb m X
+2) ./exp-golomb m
 
-, gdzie: 
-
-m - parametr m
-
-X - sekwencja do zakodowania
+, gdzie: m - rząd
