@@ -2,6 +2,7 @@
 #include<string> 
 #include <random>
 #include <fstream>
+#include <stdlib.h>
 
 using namespace std;
 
@@ -12,9 +13,13 @@ using namespace std;
 
 #define BUFFER_SIZE 1024
 
+#define DIST_PATH "/Users/marta/workspace/KODA/exp-golomb/obrazy/peppers.txt"
+
 int main (int argc, char *argv[]) 
 {
 	if(argc > 1){
+        TxtLoader loader;
+        vector<int> data = loader.read(DIST_PATH);
 		
 		DataGenerator dataGenerator;
 		
@@ -26,22 +31,11 @@ int main (int argc, char *argv[])
 		
 		GolombEncoder expGolomb(m);
 		expGolomb.setBuffer(buffer, BUFFER_SIZE);
-		
-		int p[14]={};
-		
-		/*pętla generująca kolejne liczby z rozkładem normalnym oraz kodująca je; 
-		przechowywane są w buffer*/
-		for (int i = 0; i < 100; i++) {
-		int number = dataGenerator.NormDist(100, 10);
-		if ((number>=30)&&(number<170)) ++p[int((number-30)/10)];
-		expGolomb.encode(number);
-		}
-		
-		cout<<"Histogram danych wejściowych"<<endl;
-		for (int i=0; i<14; ++i) {
-    		cout << i*10+30 << "-" << ((i+1)*10+30) << ": ";
-    		cout << string(p[i],'*') << endl;
-  		}
+				
+		for(auto &item: data) {
+              // std::cout <<"item"<< item << std::endl;
+              expGolomb.encode(item);
+        }
 		
 		expGolomb.close();
 		
@@ -52,9 +46,9 @@ int main (int argc, char *argv[])
 		uint64_t a;
 		//pętla dekodująca buffer
 		cout<<"Wyniki dekodowania"<<endl;
-		for (int i = 0; i < 100; i++) {
+		for (auto &item: data) {
 		expDecoder.decode(a);
-		cout << a << endl;
+		cout << a << " "<< item << endl;
 		}
 
 		
