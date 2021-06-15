@@ -155,7 +155,7 @@ bool BitOutputStream::flush()
 		for (int i = remainder; i < 8; i++)
 			bytes.putByte(0x00);
 	}
-	std::cout << bytes.totalLength << std::endl;
+	// std::cout << bytes.totalLength << std::endl;
 	return true;
 }
 

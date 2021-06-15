@@ -53,6 +53,7 @@ vector<int> TxtLoader::read(const char* path)
       int value;
       while(lineStream >> value){
           v.push_back(value);
+          cout << value;
       }
   }
     
@@ -93,28 +94,6 @@ void TxtLoader::writeText(const char* path, string text)
 
 void TxtLoader::writeBits(const char* path, uint8_t buffer[])
 {
-	/*
-	bool b;
-	uint64_t groupID = 0;
-
-	// group id
-	b = bitStream.getBit();
-	while (!b)
-	{
-		groupID++;
-		b = bitStream.getBit();
-	}
-
-	// groupID-1bit
-	std::bitset<64> bits;
-	bits.reset();
-	for (int i = 0; i < groupID; i++)
-	{
-		b = bitStream.getBit();
-		bits.set(i, b);
-	}
-	
-	*/
 	ofstream myfile;
   	// myfile.open (path, ios::out | ios::app | ios::ate | ios::binary);
   	myfile.open (path, ios::out | ios::ate | ios::binary);

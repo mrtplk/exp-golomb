@@ -9,7 +9,7 @@ public:
 
 	GolombEncoder(uint64_t m_);
 
-	bool encode(uint64_t num);
+	BitOutputStream encode(uint64_t num);
 
 	bool close();
 
@@ -46,7 +46,7 @@ void GolombEncoder::resetBuffer()
 	bitStream.resetBuffer();
 }
 
-bool GolombEncoder::encode(uint64_t num)
+BitOutputStream GolombEncoder::encode(uint64_t num)
 {
 	if (k != 0)
 		num = num + pow(2, k) - 1;
@@ -66,7 +66,8 @@ bool GolombEncoder::encode(uint64_t num)
 		info >>= 1;
 	}
 	
-	return bitStream.freeLength() >= len;
+	//return bitStream.freeLength() >= len;
+    return bitStream;
 }
 
 bool GolombEncoder::close()

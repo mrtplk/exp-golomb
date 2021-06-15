@@ -27,6 +27,7 @@ struct BitBuffer
 	void putBit(bool b);
 
 	void putByte(uint8_t b);
+    
 };
 
 ////////////////////////////////////////////////////
@@ -75,8 +76,7 @@ public:
 	{
 		return bytes.pos;
 	}
-
-private:
+    
 	BitBuffer bits;
 	ByteBuffer bytes;
 };
